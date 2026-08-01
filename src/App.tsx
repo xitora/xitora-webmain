@@ -6,6 +6,7 @@ import {
   type MouseEvent,
   type ReactNode,
 } from "react";
+import { flushSync } from "react-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
@@ -663,7 +664,6 @@ function currentPath() {
 function App() {
   const [path, setPath] = useState(currentPath);
   const pathRef = useRef(path);
-  const transitionRef = useRef<HTMLDivElement>(null);
   const transitionRunningRef = useRef(false);
   const isGearPage = path === "/gear";
 
@@ -671,7 +671,6 @@ function App() {
     [
       "/assets/home-background-soft.jpg",
       "/assets/gear-background-soft.jpg",
-      "/assets/transition-brush-wipe.png",
     ].forEach((source) => {
       const image = new Image();
       image.src = source;
@@ -693,68 +692,35 @@ function App() {
       }
 
       pathRef.current = normalizedPath;
-      setPath(normalizedPath);
+      flushSync(() => setPath(normalizedPath));
       window.scrollTo(0, 0);
     };
 
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    const transition = transitionRef.current;
-    const transitionWash = transition?.querySelector<HTMLElement>(
-      "[data-transition-wash]",
-    );
+    const transitionDocument = document as Document & {
+      startViewTransition?: (update: () => void) => {
+        finished: Promise<void>;
+      };
+    };
 
-    if (
-      reduceMotion ||
-      !transition ||
-      !transitionWash
-    ) {
+    if (reduceMotion || !transitionDocument.startViewTransition) {
       updatePage();
       return;
     }
 
     transitionRunningRef.current = true;
-    transition.dataset.tone =
-      normalizedPath === "/gear" ? "dark" : "light";
-    const duration = 1.24;
-    const brushOffset = Math.min(
-      380,
-      Math.max(220, window.innerHeight * 0.37),
-    );
+    document.documentElement.dataset.pageTransition =
+      normalizedPath === "/gear" ? "forward" : "back";
 
-    gsap
-      .timeline({
-        onComplete: () => {
-          transitionRunningRef.current = false;
-        },
-      })
-      .set(transition, {
-        autoAlpha: 1,
-      })
-      .set(transitionWash, {
-        force3D: true,
-        y: window.innerHeight - brushOffset,
-      })
-      .to(
-        transitionWash,
-        {
-          y: -brushOffset,
-          duration,
-          ease: "sine.inOut",
-        },
-        0,
-      )
-      .add(updatePage, duration)
-      .to(
-        transition,
-        {
-          autoAlpha: 0,
-          duration: 0.26,
-          ease: "sine.out",
-        },
-        duration,
-      );
+    const transition = transitionDocument.startViewTransition(updatePage);
+    void transition.finished
+      .catch(() => undefined)
+      .finally(() => {
+        transitionRunningRef.current = false;
+        delete document.documentElement.dataset.pageTransition;
+      });
   }, []);
 
   useEffect(() => {
@@ -819,12 +785,6 @@ function App() {
       ) : (
         <HomePage onNavigate={navigate} />
       )}
-      <div className="page-transition" ref={transitionRef} aria-hidden="true">
-        <div
-          className="page-transition__wash"
-          data-transition-wash
-        />
-      </div>
       <CyberScrollbar />
       <GlobalCursor />
     </>

@@ -1016,65 +1016,53 @@ img {
   letter-spacing: 0.08em;
 }
 
-.page-transition {
-  position: fixed;
-  z-index: 100;
-  inset: 0;
-  overflow: hidden;
-  visibility: hidden;
+::view-transition-group(root) {
+  animation-duration: 780ms;
+  animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+  animation: page-slide-in-right 780ms cubic-bezier(0.76, 0, 0.24, 1)
+    both;
+  box-shadow: -28px 0 72px rgb(2 3 7 / 28%);
+  mix-blend-mode: normal;
+}
+
+html[data-page-transition="back"]::view-transition-new(root) {
+  animation-name: page-slide-in-left;
+  box-shadow: 28px 0 72px rgb(2 3 7 / 28%);
+}
+
+html[data-page-transition] .pointer-aura,
+html[data-page-transition] .cursor-core {
   opacity: 0;
-  pointer-events: auto;
-  will-change: opacity, visibility;
 }
 
-.page-transition__wash {
-  --transition-brush-height: clamp(440px, 74vh, 760px);
-  --transition-brush-offset: clamp(220px, 37vh, 380px);
+@keyframes page-slide-in-right {
+  from {
+    transform: translate3d(100%, 0, 0);
+  }
 
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: calc(100% + var(--transition-brush-offset));
-  background-position: center;
-  background-repeat: no-repeat;
-  transform-origin: center;
-  backface-visibility: hidden;
-  will-change: transform;
+  to {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
-.page-transition[data-tone="light"] .page-transition__wash {
-  background-image:
-    url("/assets/transition-brush-wipe.png"),
-    linear-gradient(
-      to bottom,
-      transparent 0 var(--transition-brush-offset),
-      #eef1f5 var(--transition-brush-offset),
-      #d4def0 100%
-    );
-  background-position:
-    center top,
-    center;
-  background-size:
-    122vw var(--transition-brush-height),
-    100% 100%;
-}
+@keyframes page-slide-in-left {
+  from {
+    transform: translate3d(-100%, 0, 0);
+  }
 
-.page-transition[data-tone="dark"] .page-transition__wash {
-  background-image:
-    url("/assets/transition-brush-wipe.png"),
-    linear-gradient(
-      to bottom,
-      transparent 0 var(--transition-brush-offset),
-      #0c1427 var(--transition-brush-offset),
-      #020307 100%
-    );
-  background-position:
-    center top,
-    center;
-  background-size:
-    122vw var(--transition-brush-height),
-    100% 100%;
+  to {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 @keyframes orbit-spin {
