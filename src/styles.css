@@ -835,6 +835,18 @@ img {
   border-top: 1px solid var(--line-light);
 }
 
+@media (min-width: 981px) {
+  .gear-main {
+    align-items: start;
+  }
+
+  .gear-heading {
+    position: sticky;
+    top: calc(76px + clamp(28px, 5vh, 48px));
+    align-self: start;
+  }
+}
+
 .gear-row {
   display: grid;
   min-height: 128px;
