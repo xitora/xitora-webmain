@@ -868,6 +868,8 @@ img {
 
 .cyber-scrollbar__rail {
   --scroll-progress: 0;
+  --scroll-thumb-size: 16px;
+
   position: relative;
   width: 18px;
   height: min(48vh, 420px);
@@ -903,15 +905,36 @@ img {
 .cyber-scrollbar__thumb {
   position: absolute;
   top: 0;
-  left: 3px;
-  width: 12px;
-  height: 28px;
+  left: 1px;
+  width: var(--scroll-thumb-size);
+  height: var(--scroll-thumb-size);
   border: 1px solid #fff;
-  background:
-    linear-gradient(90deg, transparent 45%, #fff 45% 55%, transparent 55%),
-    rgb(19 85 223 / 55%);
-  box-shadow: 0 0 15px rgb(47 115 255 / 76%);
+  border-radius: 50%;
+  background: #1355df;
+  box-shadow:
+    0 0 0 3px rgb(19 85 223 / 20%),
+    0 0 16px rgb(47 115 255 / 86%);
   transform: translateY(var(--scroll-thumb-y, 0));
+}
+
+.cyber-scrollbar__thumb::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  content: "";
+  border-radius: 50%;
+  background: #fff;
+  transform: translate(-50%, -50%);
+}
+
+.cyber-scrollbar__thumb::after {
+  position: absolute;
+  inset: -4px;
+  content: "";
+  border: 1px solid rgb(255 255 255 / 34%);
+  border-radius: 50%;
 }
 
 .cyber-scrollbar__ticks {
@@ -1241,6 +1264,8 @@ html[data-page-transition] .cursor-core {
   }
 
   .cyber-scrollbar__rail {
+    --scroll-thumb-size: 12px;
+
     width: 12px;
     height: 34vh;
   }
@@ -1251,8 +1276,7 @@ html[data-page-transition] .cursor-core {
   }
 
   .cyber-scrollbar__thumb {
-    left: 1px;
-    width: 10px;
+    left: 0;
   }
 
   .cyber-scrollbar__ticks {

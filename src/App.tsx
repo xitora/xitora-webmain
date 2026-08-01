@@ -331,9 +331,15 @@ function CyberScrollbar() {
         "--scroll-progress",
         String(Math.min(1, Math.max(0, progress))),
       );
+      const thumbSize =
+        Number.parseFloat(
+          window
+            .getComputedStyle(rail)
+            .getPropertyValue("--scroll-thumb-size"),
+        ) || 16;
       rail.style.setProperty(
         "--scroll-thumb-y",
-        `${progress * Math.max(0, rail.clientHeight - 28)}px`,
+        `${progress * Math.max(0, rail.clientHeight - thumbSize)}px`,
       );
       output.value = String(Math.round(progress * 100)).padStart(3, "0");
       animationFrame = 0;
