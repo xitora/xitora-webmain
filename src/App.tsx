@@ -131,22 +131,10 @@ function PageMotion({
     const context = gsap.context(() => {
       if (reduceMotion) return;
 
-      const tiltTargets =
-        page.querySelectorAll<HTMLElement>("[data-tilt]");
       const wordTargets =
         page.querySelectorAll<HTMLElement>("[data-word]");
       const gearTargets =
         page.querySelectorAll<HTMLElement>("[data-gear]");
-
-      if (tiltTargets.length) {
-        gsap.set(tiltTargets, {
-          force3D: true,
-          rotateX: 0,
-          rotateY: 0,
-          transformOrigin: "50% 50%",
-          transformPerspective: 900,
-        });
-      }
 
       gsap.from("[data-intro]", {
         y: 24,
@@ -219,58 +207,33 @@ function PageMotion({
           },
         });
       });
-    }, page);
 
-    const tiltElements = Array.from(
-      page.querySelectorAll<HTMLElement>("[data-tilt]"),
-    );
-    const tiltCleanups = tiltElements.map((element) => {
-      const handlePointerMove = (event: PointerEvent) => {
-        if (event.pointerType === "touch" || reduceMotion) return;
-        const bounds = element.getBoundingClientRect();
-        const horizontal = (event.clientX - bounds.left) / bounds.width - 0.5;
-        const vertical = (event.clientY - bounds.top) / bounds.height - 0.5;
-
-        gsap.to(element, {
-          rotateY: horizontal * 5,
-          rotateX: vertical * -4,
-          x: horizontal * 5,
-          y: vertical * 5,
-          duration: 0.7,
-          ease: "power3.out",
-          overwrite: "auto",
-        });
-      };
-
-      const handlePointerLeave = () => {
-        if (reduceMotion) return;
-
-        gsap.to(element, {
-          rotateX: 0,
-          rotateY: 0,
-          x: 0,
-          y: 0,
-          duration: 0.9,
-          ease: "power3.out",
-          overwrite: "auto",
-        });
-      };
-
-      element.addEventListener("pointermove", handlePointerMove, {
-        passive: true,
+      const sectionOffset = window.innerWidth <= 620 ? 42 : 110;
+      gsap.utils.toArray<HTMLElement>("[data-section]").forEach((section) => {
+        gsap.fromTo(
+          section,
+          {
+            y: sectionOffset,
+            opacity: 0.28,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 96%",
+              end: "top 54%",
+              scrub: 1.05,
+            },
+          },
+        );
       });
-      element.addEventListener("pointerleave", handlePointerLeave);
-
-      return () => {
-        element.removeEventListener("pointermove", handlePointerMove);
-        element.removeEventListener("pointerleave", handlePointerLeave);
-      };
-    });
+    }, page);
 
     window.requestAnimationFrame(() => ScrollTrigger.refresh());
 
     return () => {
-      tiltCleanups.forEach((cleanup) => cleanup());
       window.cancelAnimationFrame(animationFrame);
       lenis?.destroy();
       context.revert();
@@ -503,22 +466,19 @@ function HomePage({ onNavigate }: { onNavigate: Navigate }) {
             </div>
           </div>
 
-          <div className="hero-system" data-intro data-parallax aria-hidden="true">
-            <div className="hero-system__ring hero-system__ring--outer" />
-            <div className="hero-system__ring hero-system__ring--inner" />
-            <div className="hero-system__axis hero-system__axis--x" />
-            <div className="hero-system__axis hero-system__axis--y" />
-            <div className="hero-system__core">X</div>
-            <span className="hero-system__coordinate">37.5665° N</span>
-            <span className="hero-system__status">프로필 / 온라인</span>
-          </div>
+          <figure className="hero-profile" data-intro>
+            <img
+              src="/assets/profile-art.png"
+              alt="xitora 프로필 이미지"
+            />
+          </figure>
           <a className="scroll-cue" href="#profile" data-intro>
             <span>아래로 탐색</span>
             <i />
           </a>
         </section>
 
-        <section className="profile-section" id="profile">
+        <section className="profile-section" id="profile" data-section>
           <div className="section-heading" data-reveal>
             <p className="section-index">01 / 프로필 정보</p>
             <h2>개인적이되, 사적이지 않게.</h2>
@@ -533,7 +493,6 @@ function HomePage({ onNavigate }: { onNavigate: Navigate }) {
               <article
                 className="profile-record"
                 data-reveal
-                data-tilt
                 key={label}
               >
                 <span>{String(index + 1).padStart(2, "0")}</span>
@@ -544,14 +503,7 @@ function HomePage({ onNavigate }: { onNavigate: Navigate }) {
           </div>
         </section>
 
-        <div className="kinetic-strip" aria-hidden="true">
-          <div>
-            <span>디자인 / 모션 / 코드 / 게임 /</span>
-            <span>디자인 / 모션 / 코드 / 게임 /</span>
-          </div>
-        </div>
-
-        <section className="signals-section" id="signals">
+        <section className="signals-section" id="signals" data-section>
           <div className="section-heading section-heading--compact" data-reveal>
             <p className="section-index">02 / 관점</p>
             <h2>디지털 작업을 바라보는 방식.</h2>
@@ -570,7 +522,7 @@ function HomePage({ onNavigate }: { onNavigate: Navigate }) {
           </div>
         </section>
 
-        <section className="closing-section" data-reveal>
+        <section className="closing-section" data-section>
           <p className="section-index">03 / 다음</p>
           <h2>사용하는 장비를 확인해보세요.</h2>
           <div className="closing-section__actions">
