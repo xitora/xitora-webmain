@@ -17,32 +17,32 @@ const githubUrl = "https://github.com/xitora";
 type Navigate = (path: string) => void;
 
 const profileFacts = [
-  ["Alias", "xitora"],
-  ["Based", "UTC +09 / Korea"],
-  ["Focus", "Interactive web & motion"],
-  ["Language", "Korean / English"],
-  ["Plays", "FPS / Rhythm games"],
-  ["Mode", "Curious, precise, always iterating"],
+  ["활동명", "xitora"],
+  ["위치", "UTC +09 / 대한민국"],
+  ["관심 분야", "인터랙티브 웹과 모션"],
+  ["언어", "한국어 / 영어"],
+  ["플레이", "FPS / 리듬 게임"],
+  ["작업 방식", "호기심을 갖고, 정교하게, 계속 개선하기"],
 ] as const;
 
 const signals = [
   {
     index: "01",
-    label: "Design",
-    title: "Clarity with an edge",
-    copy: "Restrained systems, deliberate contrast, and details that reward a second look.",
+    label: "디자인",
+    title: "절제 속의 선명함",
+    copy: "정돈된 시스템과 의도적인 대비, 다시 볼수록 발견되는 디테일을 추구합니다.",
   },
   {
     index: "02",
-    label: "Interaction",
-    title: "Motion with purpose",
-    copy: "Transitions and responses are tuned to guide attention without slowing the experience.",
+    label: "인터랙션",
+    title: "목적이 있는 움직임",
+    copy: "경험의 흐름을 늦추지 않으면서 시선을 안내하도록 전환과 반응을 조율합니다.",
   },
   {
     index: "03",
-    label: "Culture",
-    title: "Games shape the rhythm",
-    copy: "FPS precision and rhythm-game timing influence how every interface should feel.",
+    label: "문화",
+    title: "게임이 만드는 리듬",
+    copy: "FPS의 정밀함과 리듬 게임의 타이밍을 인터페이스의 감각으로 연결합니다.",
   },
 ] as const;
 
@@ -150,11 +150,9 @@ function PageMotion({
       gsap.from("[data-intro]", {
         y: 24,
         opacity: 0,
-        filter: "blur(10px)",
         duration: 1.2,
         stagger: 0.085,
         delay: 0.16,
-        clearProps: "filter",
         ease: "power3.out",
       });
 
@@ -184,9 +182,7 @@ function PageMotion({
         gsap.from(element, {
           y: 58,
           opacity: 0,
-          filter: "blur(12px)",
           duration: 1.15,
-          clearProps: "filter",
           ease: "power3.out",
           scrollTrigger: {
             trigger: element,
@@ -433,13 +429,13 @@ function CyberScrollbar() {
   }, []);
 
   return (
-    <aside className="cyber-scrollbar" aria-label="Page scroll position">
-      <span className="cyber-scrollbar__label">SCROLL</span>
+    <aside className="cyber-scrollbar" aria-label="페이지 스크롤 위치">
+      <span className="cyber-scrollbar__label">스크롤</span>
       <button
         className="cyber-scrollbar__rail"
         ref={railRef}
         type="button"
-        aria-label="Drag or click to scroll"
+        aria-label="드래그하거나 클릭해 스크롤"
       >
         <span className="cyber-scrollbar__progress" />
         <span className="cyber-scrollbar__thumb" />
@@ -465,9 +461,9 @@ function HomePage({ onNavigate }: { onNavigate: Navigate }) {
 
       <header className="topbar" data-intro>
         <Mark onNavigate={onNavigate} />
-        <nav aria-label="Primary navigation">
+        <nav aria-label="주요 메뉴">
           <InternalLink href="/gear" onNavigate={onNavigate}>
-            Gear
+            장비
           </InternalLink>
           <a href={githubUrl} target="_blank" rel="noreferrer">
             GitHub ↗
@@ -479,18 +475,18 @@ function HomePage({ onNavigate }: { onNavigate: Navigate }) {
         <section className="home-hero" id="top">
           <div className="home-copy">
             <p className="eyebrow" data-intro>
-              Designer, developer &amp; gamer
+              디자이너 · 개발자 · 게이머
             </p>
-            <h1 aria-label="Welcome to my profile">
-              {["Welcome", "to", "my", "profile"].map((word) => (
+            <h1 aria-label="내 프로필에 오신 걸 환영합니다">
+              {["내", "프로필에", "오신", "걸", "환영합니다"].map((word) => (
                 <span className="hero-word-mask" key={word}>
                   <span data-word>{word}</span>
                 </span>
               ))}
             </h1>
             <p className="home-description" data-intro>
-              I&apos;m xitora — building expressive digital experiences
-              between precise systems, motion, and game culture.
+              정교한 시스템과 모션, 게임 문화 사이에서 표현력 있는 디지털
+              경험을 만드는 xitora입니다.
             </p>
             <div className="home-links" data-intro>
               <InternalLink
@@ -498,10 +494,10 @@ function HomePage({ onNavigate }: { onNavigate: Navigate }) {
                 href="/gear"
                 onNavigate={onNavigate}
               >
-                Explore my gear <span>↗</span>
+                사용 장비 살펴보기 <span>↗</span>
               </InternalLink>
               <a className="text-link" href="#profile">
-                Read profile <span>↓</span>
+                프로필 읽기 <span>↓</span>
               </a>
             </div>
           </div>
@@ -513,21 +509,21 @@ function HomePage({ onNavigate }: { onNavigate: Navigate }) {
             <div className="hero-system__axis hero-system__axis--y" />
             <div className="hero-system__core">X</div>
             <span className="hero-system__coordinate">37.5665° N</span>
-            <span className="hero-system__status">PROFILE / ONLINE</span>
+            <span className="hero-system__status">프로필 / 온라인</span>
           </div>
           <a className="scroll-cue" href="#profile" data-intro>
-            <span>Scroll to explore</span>
+            <span>아래로 탐색</span>
             <i />
           </a>
         </section>
 
         <section className="profile-section" id="profile">
           <div className="section-heading" data-reveal>
-            <p className="section-index">01 / PROFILE DATA</p>
-            <h2>Personal, not private.</h2>
+            <p className="section-index">01 / 프로필 정보</p>
+            <h2>개인적이되, 사적이지 않게.</h2>
             <p>
-              A compact public snapshot. Enough context to know the person,
-              without turning a profile into a form.
+              나를 이해하는 데 필요한 맥락만 담은 간결한 공개 프로필입니다.
+              형식적인 소개보다 사람의 결을 보여줍니다.
             </p>
           </div>
           <div className="section-rule" data-line />
@@ -549,15 +545,15 @@ function HomePage({ onNavigate }: { onNavigate: Navigate }) {
 
         <div className="kinetic-strip" aria-hidden="true">
           <div>
-            <span>DESIGN / MOTION / CODE / GAMES /</span>
-            <span>DESIGN / MOTION / CODE / GAMES /</span>
+            <span>디자인 / 모션 / 코드 / 게임 /</span>
+            <span>디자인 / 모션 / 코드 / 게임 /</span>
           </div>
         </div>
 
         <section className="signals-section" id="signals">
           <div className="section-heading section-heading--compact" data-reveal>
-            <p className="section-index">02 / SIGNALS</p>
-            <h2>How I see digital work.</h2>
+            <p className="section-index">02 / 관점</p>
+            <h2>디지털 작업을 바라보는 방식.</h2>
           </div>
           <div className="section-rule" data-line />
           <div className="signal-list">
@@ -574,18 +570,18 @@ function HomePage({ onNavigate }: { onNavigate: Navigate }) {
         </section>
 
         <section className="closing-section" data-reveal>
-          <p className="section-index">03 / NEXT</p>
-          <h2>See the tools behind the play.</h2>
+          <p className="section-index">03 / 다음</p>
+          <h2>사용하는 장비를 확인해보세요.</h2>
           <div className="closing-section__actions">
             <InternalLink
               className="primary-link primary-link--blue"
               href="/gear"
               onNavigate={onNavigate}
             >
-              Open equipment list <span>↗</span>
+              장비 목록 열기 <span>↗</span>
             </InternalLink>
             <a className="text-link" href={githubUrl} target="_blank" rel="noreferrer">
-              GitHub profile <span>↗</span>
+              GitHub 프로필 <span>↗</span>
             </a>
           </div>
         </section>
@@ -593,7 +589,7 @@ function HomePage({ onNavigate }: { onNavigate: Navigate }) {
 
       <footer className="page-footer" data-reveal>
         <span>© 2026 xitora.cc</span>
-        <a href="#top">Back to top ↑</a>
+        <a href="#top">맨 위로 ↑</a>
       </footer>
     </section>
   );
@@ -612,9 +608,9 @@ function GearPage({ onNavigate }: { onNavigate: Navigate }) {
 
       <header className="topbar topbar--light" data-intro>
         <Mark onNavigate={onNavigate} />
-        <nav aria-label="Primary navigation">
+        <nav aria-label="주요 메뉴">
           <InternalLink href="/" onNavigate={onNavigate}>
-            Home
+            홈
           </InternalLink>
           <a href={githubUrl} target="_blank" rel="noreferrer">
             GitHub ↗
@@ -625,15 +621,15 @@ function GearPage({ onNavigate }: { onNavigate: Navigate }) {
       <main className="gear-main">
         <div className="gear-heading">
           <p className="eyebrow eyebrow--light" data-intro>
-            Equipment archive
+            장비 아카이브
           </p>
-          <h1 data-intro>My gear</h1>
+          <h1 data-intro>나의 장비</h1>
           <p data-intro>
-            A living list of the equipment currently in use.
+            현재 사용 중인 장비를 계속 업데이트하는 목록입니다.
           </p>
         </div>
 
-        <div className="gear-list" aria-label="Equipment list">
+        <div className="gear-list" aria-label="장비 목록">
           {gearItems.map((item) => (
             <article className="gear-row" key={item.category} data-gear>
               <span className="gear-row__index">{item.index}</span>
@@ -651,9 +647,9 @@ function GearPage({ onNavigate }: { onNavigate: Navigate }) {
       </main>
 
       <footer className="page-footer page-footer--light" data-intro>
-        <span>Last updated — 2026.08.01</span>
+        <span>최종 업데이트 — 2026.08.01</span>
         <InternalLink href="/" onNavigate={onNavigate}>
-          ← Back home
+          ← 홈으로 돌아가기
         </InternalLink>
       </footer>
     </section>
@@ -670,6 +666,17 @@ function App() {
   const transitionRef = useRef<HTMLDivElement>(null);
   const transitionRunningRef = useRef(false);
   const isGearPage = path === "/gear";
+
+  useEffect(() => {
+    [
+      "/assets/home-background-soft.jpg",
+      "/assets/gear-background-soft.jpg",
+      "/assets/transition-brush-wipe.png",
+    ].forEach((source) => {
+      const image = new Image();
+      image.src = source;
+    });
+  }, []);
 
   const navigate = useCallback((nextPath: string, pushHistory = true) => {
     const normalizedPath = nextPath.replace(/\/+$/, "") || "/";
@@ -694,11 +701,15 @@ function App() {
       "(prefers-reduced-motion: reduce)",
     ).matches;
     const transition = transitionRef.current;
-    const transitionArt = transition?.querySelector<HTMLElement>(
-      "[data-transition-art]",
+    const transitionWash = transition?.querySelector<HTMLElement>(
+      "[data-transition-wash]",
     );
 
-    if (reduceMotion || !transition || !transitionArt) {
+    if (
+      reduceMotion ||
+      !transition ||
+      !transitionWash
+    ) {
       updatePage();
       return;
     }
@@ -706,7 +717,11 @@ function App() {
     transitionRunningRef.current = true;
     transition.dataset.tone =
       normalizedPath === "/gear" ? "dark" : "light";
-    const direction = normalizedPath === "/gear" ? 1 : -1;
+    const duration = 1.24;
+    const brushOffset = Math.min(
+      380,
+      Math.max(220, window.innerHeight * 0.37),
+    );
 
     gsap
       .timeline({
@@ -717,29 +732,29 @@ function App() {
       .set(transition, {
         autoAlpha: 1,
       })
-      .set(transitionArt, {
+      .set(transitionWash, {
         force3D: true,
-        rotate: direction * 1.2,
-        scale: 1.04,
-        xPercent: -50 + direction * 2,
-        yPercent: 50,
+        y: window.innerHeight - brushOffset,
       })
       .to(
-        transitionArt,
+        transitionWash,
         {
-          rotate: direction * -0.8,
-          scale: 1,
-          xPercent: -50 - direction * 2,
-          yPercent: -50,
-          duration: 1.42,
-          ease: "power4.inOut",
+          y: -brushOffset,
+          duration,
+          ease: "sine.inOut",
         },
         0,
       )
-      .add(updatePage, 0.71)
-      .set(transition, {
-        autoAlpha: 0,
-      });
+      .add(updatePage, duration)
+      .to(
+        transition,
+        {
+          autoAlpha: 0,
+          duration: 0.26,
+          ease: "sine.out",
+        },
+        duration,
+      );
   }, []);
 
   useEffect(() => {
@@ -751,8 +766,8 @@ function App() {
 
   useEffect(() => {
     document.title = isGearPage
-      ? "Gear — xitora"
-      : "xitora — Designer & Developer";
+      ? "장비 — xitora"
+      : "xitora — 디자이너 & 개발자";
   }, [isGearPage]);
 
   return (
@@ -806,8 +821,8 @@ function App() {
       )}
       <div className="page-transition" ref={transitionRef} aria-hidden="true">
         <div
-          className="page-transition__art"
-          data-transition-art
+          className="page-transition__wash"
+          data-transition-wash
         />
       </div>
       <CyberScrollbar />
